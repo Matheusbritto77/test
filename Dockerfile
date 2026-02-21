@@ -11,6 +11,6 @@ COPY bootloader.bin .
 RUN ls -l bootloader.bin
 
 # Comando para iniciar a emulação do hardware real
-# Seta o arquivo como disquete e força o boot por ele
-# -vga none -display none: Garante foco total na serial
-CMD ["qemu-system-x86_64", "-fda", "bootloader.bin", "-boot", "a", "-nographic", "-serial", "stdio"]
+# -drive: Define explicitamente o formato raw e interface floppy
+# -serial mon:stdio: Combina o monitor do QEMU e a porta serial em um único fluxo (evita o erro)
+CMD ["qemu-system-x86_64", "-drive", "file=bootloader.bin,format=raw,if=floppy", "-boot", "a", "-nographic", "-serial", "mon:stdio"]
