@@ -11,6 +11,7 @@ COPY bootloader.bin .
 RUN ls -l bootloader.bin
 
 # Comando para iniciar a emulação do hardware real
-# -drive: Define explicitamente o formato raw e a interface de disquete (floppy)
-# -nographic e -serial mon:stdio: Redireciona tudo para o console da VPS
-CMD ["qemu-system-x86_64", "-drive", "file=bootloader.bin,format=raw,if=floppy", "-nographic", "-serial", "mon:stdio"]
+# -fda: Força o uso do arquivo como disquete A (Drive 0)
+# -boot a: Força o BIOS a tentar o disquete primeiro
+# -nographic e -serial: Para vermos a saída no log da VPS
+CMD ["qemu-system-x86_64", "-fda", "bootloader.bin", "-boot", "a", "-nographic", "-serial", "mon:stdio"]
