@@ -11,7 +11,6 @@ COPY bootloader.bin .
 RUN ls -l bootloader.bin
 
 # Comando para iniciar a emulação do hardware real
-# -drive: Define o binário como o disco rígido principal
-# -display none: Remove a necessidade de interface gráfica na VPS
-# -serial stdio: Redireciona a entrada/saída serial para o console do Docker
-CMD ["qemu-system-x86_64", "-drive", "format=raw,file=bootloader.bin", "-nographic", "-serial", "mon:stdio"]
+# -boot a: Força o boot pelo drive de disquete (mais confiável para binários de 512 bytes)
+# -fda: Define o arquivo como o disquete A
+CMD ["qemu-system-x86_64", "-fda", "bootloader.bin", "-boot", "a", "-nographic", "-serial", "mon:stdio"]
